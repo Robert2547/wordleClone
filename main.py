@@ -23,46 +23,57 @@ def pickWord():
 
 def getHint(word, guess):
     
+        hold = "_ _ _ _ _ "
+        hold = hold.split() # splits string into list
         for i in range(min(len(guess), 5)): 
             if guess[i] == word[i]: # if letter is in correct position
                 print(colored(guess[i], 'green'), end = "") # colors letter green
+                hold[i] = guess[i] # replaces _ with letter
 
             elif guess[i] in word: # if letter is in word but not in correct position
                 print(colored(guess[i], 'yellow'), end = "") # colors letter yellow
 
             else: # if letter is not in word
                 print(colored(guess[i], 'red'), end = "") # colors letter red
+        print("\n")
+        print(*hold)
 
 def playGame():
 
     word = pickWord() # picks random word
     guesses = 5 # sets number of guesses to 5
-    hold = "_ _ _ _ _"
 
     while guesses > 0: # while there are still guesses
         print("\nGuess a 5 letter word\n")
-        print(hold) # prints word with blanks
 
         guess = input() # gets user input
         guess = guess.strip().lower() # removes \n and makes lowercase
 
         if guess == word: # if guess is correct
-            print("\nYou win!")
-            print("The word was " + word)
+            print(colored("\nYou win!", 'yellow'))
+            print("The word was " + colored(word, 'green') + " you got it within " + str(guesses) + " guesses")
             break # breaks out of while loop
 
         else: # if guess is incorrect
             guesses -= 1 # subtracts 1 from guesses
 
             if guesses == 0: # if there are no more guesses
-                print("\nYou lose!")
-                print("The word was " + word)
+                print(colored("\nYou lose!", 'red'))
+                print("The word was " + colored(word, 'green'))
                 break # breaks out of while loop
 
             else: # if there are still guesses
                 print("\nYou have " + str(guesses) + " guesses left")
                 getHint(word, guess) # gets hint
                 print("\n")
+    
+    print("\nWould you like to play again? (y/n)")
+    answer = input()
+    if answer == "y":
+        playGame()
+    else:
+        sys.exit()
+
         
 
 def main():
